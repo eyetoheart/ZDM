@@ -62,7 +62,7 @@ else
             echo "at the $TODAYDATEFULL,you backup $dirpath directory to $BACKUPDIR directory,backup file name is ${filename}.gz" >> $SCRIPTDIR/manual.log
             echo >> $SCRIPTDIR/manual.log
         else
-            #awk 'NR == 2' $SCRIPTDIR/word.txt
+            awk 'NR == 2' $SCRIPTDIR/word.txt
             echo "you input path not exist,please check and input again"
             echo "at the $TODAYDATEFULL,you input the path of you need backup,but this directory is not exist" >> $SCRIPTDIR/manual.log
             echo >> $SCRIPTDIR/manual.log
