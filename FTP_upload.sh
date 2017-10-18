@@ -7,7 +7,8 @@
 ## modify time:
 ## copyright (C) BeiJing IWT Technology Ltd.
 ############################################
-
+##receiver.txt配置文件内容的格式如下：
+##EmailAddress,Friendly name
 #######Define Envionment Variables########
 LANG=zh_CN.UTF-8
 export LANG
@@ -104,4 +105,3 @@ else
     done
 fi
 rm -rf $SCRIPTDIR/uptemp.txt
-
