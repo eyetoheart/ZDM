@@ -17,7 +17,7 @@ DATEDAY="`date -d '-0 day' "+%Y%m%d%H%M"`"
 
 TEMPBAKSERV="192.168.56.21"
 TEMPBAKUSER="iwgroup"
-TEMPBAKPASS='bk2X7@yeavTqShC'
+TEMPBAKPASS='abcdefg123456'
 TEMPBAKPATH="/home/iwgroup/backup/databak/ocrpictemp"
 
 export LANG=zh_CN.UTF-8
