@@ -16,72 +16,72 @@ LANG=zh_CN.GB2312
 export LANG
 
 #JIFENSERVER="192.168.61.2"
-#JIFENPASS='123456a'
-#JIFENPASS='qX9&L1$l'
+#JIFENPASS='abcdefg123456'
+#JIFENPASS='abcdefg123456'
 JIFENSERVER="192.168.60.11"
 JIFENUSER="iwgroup"
-JIFENPASS='x*5R3)Gq'
+JIFENPASS='abcdefg123456'
 JIFENPATH="/opt/iwgroup/vasoss/point-calculate-server/config"
 
 DBSERVERSITE="192.168.60.20"
 DBSERVERPORT="5432"
 DBSERVERUSER="postgres"
-DBSERVERPASS='iwgroupytwy'
-DBSERVERDBNAME="pointdb"		## Êı¾İ¿âµÄÃû×Ö
+DBSERVERPASS='abcdefg123456'
+DBSERVERDBNAME="poingdb"		## æ•°æ®åº“çš„åå­—
 
 echo "######################################################check point calculate statistic,`date -d '-0 day' "+%Y-%m-%d_%H:%M:%S"`##########################" >> $SCRIPTDIR/logs.txt
-#######################»ñÈ¡×òÌì¿ª½±µÄÆÚºÅÎÄ¼ş£¬²¢´æ´¢ÔÚ±¾µØµÄÁÙÊ±ÎÄ¼ştemp.txtÄÚ#########################
+#######################è·å–æ˜¨å¤©å¼€å¥–çš„æœŸå·æ–‡ä»¶ï¼Œå¹¶å­˜å‚¨åœ¨æœ¬åœ°çš„ä¸´æ—¶æ–‡ä»¶temp.txtå†…#########################
 /usr/bin/plink -l $JIFENUSER -pw $JIFENPASS $JIFENUSER@$JIFENSERVER grep $YESTERDAY $JIFENPATH/point-issue-file.txt > $SCRIPTDIR/temp.txt
 
-#######################ÀíÂÛÉÏ£¬×òÌìÈ«¹úÍæ·¨»ı·ÖÊı¾İÎÄ¼ş¸öÊı############################
+#######################ç†è®ºä¸Šï¼Œæ˜¨å¤©å…¨å›½ç©æ³•ç§¯åˆ†æ•°æ®æ–‡ä»¶ä¸ªæ•°############################
 THEORETICALLY_NATIONWIDE_NUMBER="`awk -F, '$2 ~ /10001|10002|10003/' $SCRIPTDIR/temp.txt | wc -l`"
 
-#######################ÀíÂÛÉÏ£¬×òÌìÊ¡¼¶Íæ·¨»ı·ÖÊı¾İÎÄ¼ş¸öÊı#############################
+#######################ç†è®ºä¸Šï¼Œæ˜¨å¤©çœçº§ç©æ³•ç§¯åˆ†æ•°æ®æ–‡ä»¶ä¸ªæ•°#############################
 #THEORETICALLY_PROVINCE_NUMBER="`awk -F, '$2 !~ /10001|10002|10003/ && $1 !~ /33|36/' $SCRIPTDIR/temp.txt | wc -l`"
 #THEORETICALLY_PROVINCE_NUMBER="`awk -F, '$2 !~ /10001|10002|10003/ && $1 !~ /33|36|41/' $SCRIPTDIR/temp.txt | wc -l`"
 THEORETICALLY_PROVINCE_NUMBER="`awk -F, '$2 !~ /10001|10002|10003/ && $1 !~ /33|36|41|45/' $SCRIPTDIR/temp.txt | wc -l`"
 
-#######################ÀíÂÛÉÏ£¬×òÌìÈ«¹úÍæ·¨×öÊ¡»ı·Ö¼ÆËãµÄÎÄ¼ş¸öÊı#######################
+#######################ç†è®ºä¸Šï¼Œæ˜¨å¤©å…¨å›½ç©æ³•åšçœç§¯åˆ†è®¡ç®—çš„æ–‡ä»¶ä¸ªæ•°#######################
 #THEORETICALLY_AGAIN_NATIONWIDE_NUMBER="`awk -F, '/^14|^41|^45|^61/ && $2 ~ /10001|10002|10003/' $SCRIPTDIR/temp.txt | wc -l`"
 #THEORETICALLY_AGAIN_NATIONWIDE_NUMBER="`awk -F, '/^45|^61/ && $2 ~ /10001|10002|10003/' $SCRIPTDIR/temp.txt | wc -l`"
 THEORETICALLY_AGAIN_NATIONWIDE_NUMBER="`awk -F, '/^61/ && $2 ~ /10001|10002|10003/' $SCRIPTDIR/temp.txt | wc -l`"
 #THEORETICALLY_AGAIN_NATIONWIDE_NUMBER_temp="`awk -F, '/^14|^45|^61/ && $2 ~ /10001|10002|10003/' $SCRIPTDIR/temp.txt | wc -l`"
 
-#######################ÀíÂÛÉÏ£¬×òÌì×öÊ¡¼¶»ı·Ö¼ÆËãµÄËùÓĞ»ı·ÖÊı¾İÎÄ¼ş¸öÊı###########################
+#######################ç†è®ºä¸Šï¼Œæ˜¨å¤©åšçœçº§ç§¯åˆ†è®¡ç®—çš„æ‰€æœ‰ç§¯åˆ†æ•°æ®æ–‡ä»¶ä¸ªæ•°###########################
 THEORETICALLY_PROVINCE_ALL_NUMBER="`/usr/bin/expr $THEORETICALLY_PROVINCE_NUMBER + $THEORETICALLY_AGAIN_NATIONWIDE_NUMBER`"
 
-#######################ÀíÂÛÉÏ£¬×òÌì×ö»ı·Ö¼ÆËãµÄËùÓĞÍæ·¨µÄÊı¾İÎÄ¼ş¸öÊı######################
+#######################ç†è®ºä¸Šï¼Œæ˜¨å¤©åšç§¯åˆ†è®¡ç®—çš„æ‰€æœ‰ç©æ³•çš„æ•°æ®æ–‡ä»¶ä¸ªæ•°######################
 THEORETICALLY_ALL_POINT_NUMBER="`/usr/bin/expr $THEORETICALLY_NATIONWIDE_NUMBER + $THEORETICALLY_PROVINCE_ALL_NUMBER`"
 
-#######################Êµ¼ÊÉÏ£¬×òÌì×öÈ«¹ú»ı·Ö¼ÆËãµÄÓĞĞ§»ı·ÖÊı¾İÎÄ¼ş¸öÊı########################
+#######################å®é™…ä¸Šï¼Œæ˜¨å¤©åšå…¨å›½ç§¯åˆ†è®¡ç®—çš„æœ‰æ•ˆç§¯åˆ†æ•°æ®æ–‡ä»¶ä¸ªæ•°########################
 ACTUALLY_NATIONWIDE_ALL_NUMBER="`/usr/local/pgsql/bin/psql -h $DBSERVERSITE -p $DBSERVERPORT -d $DBSERVERDBNAME -c "select count(*) from busi_sell_data_handle_status_t where receive_time >= (current_date - integer '1') and receive_time <= current_date and handle_status = '2' and point_type = '0';" | awk 'NR == 3 {print $1}'`"
 ACTUALLY_NATIONWIDE_NUMBER="`/usr/local/pgsql/bin/psql -h $DBSERVERSITE -p $DBSERVERPORT -d $DBSERVERDBNAME -c "select count(*) from busi_sell_data_handle_status_t where receive_time >= (current_date - integer '1') and receive_time <= current_date and point_type = '0';" | awk 'NR == 3 {print $1}'`"
-ACTUALLY_NATIONWIDE_UNEFFECTIVE_NUMBER="`/usr/local/pgsql/bin/psql -h $DBSERVERSITE -p $DBSERVERPORT -d $DBSERVERDBNAME -c "select count(*) from busi_sell_data_handle_status_t where receive_time >= (current_date - integer '1') and receive_time <= current_date and handle_status != '2' and point_type = '0';" | awk 'NR == 3 {print $1}'`"    ######×òÌìÈ«¹ú»ı·Ö¼ÆËãhandle_status×´Ì¬²»µÈÓÚ2µÄ¼ÇÂ¼Êı
+ACTUALLY_NATIONWIDE_UNEFFECTIVE_NUMBER="`/usr/local/pgsql/bin/psql -h $DBSERVERSITE -p $DBSERVERPORT -d $DBSERVERDBNAME -c "select count(*) from busi_sell_data_handle_status_t where receive_time >= (current_date - integer '1') and receive_time <= current_date and handle_status != '2' and point_type = '0';" | awk 'NR == 3 {print $1}'`"    ######æ˜¨å¤©å…¨å›½ç§¯åˆ†è®¡ç®—handle_statusçŠ¶æ€ä¸ç­‰äº2çš„è®°å½•æ•°
 
-#######################Êµ¼ÊÉÏ£¬×òÌì×öÊ¡¼¶»ı·Ö¼ÆËãµÄÓĞĞ§»ı·ÖÊı¾İÎÄ¼ş¸öÊı########################
+#######################å®é™…ä¸Šï¼Œæ˜¨å¤©åšçœçº§ç§¯åˆ†è®¡ç®—çš„æœ‰æ•ˆç§¯åˆ†æ•°æ®æ–‡ä»¶ä¸ªæ•°########################
 ACTUALLY_PROVINCE_ALL_NUMBER="`/usr/local/pgsql/bin/psql -h $DBSERVERSITE -p $DBSERVERPORT -d $DBSERVERDBNAME -c "select count(*) from busi_sell_data_handle_status_t where receive_time >= (current_date - integer '1') and receive_time <= current_date and handle_status = '2' and point_type = '1';" | awk 'NR == 3 {print $1}'`"
 
-#######################Êµ¼ÊÉÏ,×òÌì×öÊ¡¼¶¼Æ·Ö¼ÆËãµÄËùÓĞÎÄ¼şÊıÁ¿#############################
+#######################å®é™…ä¸Š,æ˜¨å¤©åšçœçº§è®¡åˆ†è®¡ç®—çš„æ‰€æœ‰æ–‡ä»¶æ•°é‡#############################
 ACTUALLY_PROVINCE_NUMBER="`/usr/local/pgsql/bin/psql -h $DBSERVERSITE -p $DBSERVERPORT -d $DBSERVERDBNAME -c "select count(*) from busi_sell_data_handle_status_t where receive_time >= (current_date - integer '1') and receive_time <= current_date and point_type = '1';" | awk 'NR == 3 {print $1}'`"
-ACTUALLY_PROVINCE_UNEFFECTIVE_NUMBER="`/usr/local/pgsql/bin/psql -h $DBSERVERSITE -p $DBSERVERPORT -d $DBSERVERDBNAME -c "select count(*) from busi_sell_data_handle_status_t where receive_time >= (current_date - integer '1') and receive_time <= current_date and handle_status != '2' and point_type = '1';" | awk 'NR == 3 {print $1}'`"    ####×òÌìÊ¡»ı·Ö¼ÆËãhandle_status×´Ì¬²»µÈÓÚ2µÄ¼ÇÂ¼Êı
+ACTUALLY_PROVINCE_UNEFFECTIVE_NUMBER="`/usr/local/pgsql/bin/psql -h $DBSERVERSITE -p $DBSERVERPORT -d $DBSERVERDBNAME -c "select count(*) from busi_sell_data_handle_status_t where receive_time >= (current_date - integer '1') and receive_time <= current_date and handle_status != '2' and point_type = '1';" | awk 'NR == 3 {print $1}'`"    ####æ˜¨å¤©çœç§¯åˆ†è®¡ç®—handle_statusçŠ¶æ€ä¸ç­‰äº2çš„è®°å½•æ•°
 
-#######################Êµ¼ÊÉÏ£¬×òÌì×ö»ı·Ö¼ÆËãµÄËùÓĞÍæ·¨µÄÊı¾İÎÄ¼ş¸öÊı######################
+#######################å®é™…ä¸Šï¼Œæ˜¨å¤©åšç§¯åˆ†è®¡ç®—çš„æ‰€æœ‰ç©æ³•çš„æ•°æ®æ–‡ä»¶ä¸ªæ•°######################
 ACTUALLY_ALL_POINT_NUMBER="`/usr/local/pgsql/bin/psql -h $DBSERVERSITE -p $DBSERVERPORT -d $DBSERVERDBNAME -c "select count(*) from busi_sell_data_handle_status_t where receive_time >= (current_date - integer '1') and receive_time <= current_date;" | awk 'NR == 3 {print $1}'`"
 
-######################Êµ¼ÊÉÏ£¬×òÌì×ö»ı·Ö¼ÆËãµÄËùÓĞÍæ·¨µÄÓĞĞ§Êı¾İÎÄ¼ş¸öÊı###################
+######################å®é™…ä¸Šï¼Œæ˜¨å¤©åšç§¯åˆ†è®¡ç®—çš„æ‰€æœ‰ç©æ³•çš„æœ‰æ•ˆæ•°æ®æ–‡ä»¶ä¸ªæ•°###################
 ACTUALLY_ALL_POINT_EFFECTIVE_NUMBER="`/usr/local/pgsql/bin/psql -h $DBSERVERSITE -p $DBSERVERPORT -d $DBSERVERDBNAME -c "select count(*) from busi_sell_data_handle_status_t where receive_time >= (current_date - integer '1') and receive_time <= current_date and handle_status = '2';" | awk 'NR == 3 {print $1}'`"
 
-echo "ÀíÂÛÉÏ, '$YESTERDAY' ÈÕ×ö»ı·Ö¼ÆËãµÄËùÓĞÍæ·¨µÄÊı¾İÎÄ¼ş¸öÊıÊÇ:$THEORETICALLY_ALL_POINT_NUMBER" >> $SCRIPTDIR/logs.txt
-echo "Êµ¼ÊÉÏ, '$YESTERDAY' ÈÕ×ö»ı·Ö¼ÆËãµÄËùÓĞÍæ·¨µÄÊı¾İÎÄ¼ş¸öÊıÊÇ:$ACTUALLY_ALL_POINT_NUMBER" >> $SCRIPTDIR/logs.txt
-echo "Êµ¼ÊÉÏ, '$YESTERDAY' ÈÕ×ö»ı·Ö¼ÆËãµÄËùÓĞÍæ·¨µÄÓĞĞ§Êı¾İÎÄ¼ş¸öÊıÊÇ:$ACTUALLY_ALL_POINT_EFFECTIVE_NUMBER" >> $SCRIPTDIR/logs.txt
+echo "ç†è®ºä¸Š, '$YESTERDAY' æ—¥åšç§¯åˆ†è®¡ç®—çš„æ‰€æœ‰ç©æ³•çš„æ•°æ®æ–‡ä»¶ä¸ªæ•°æ˜¯:$THEORETICALLY_ALL_POINT_NUMBER" >> $SCRIPTDIR/logs.txt
+echo "å®é™…ä¸Š, '$YESTERDAY' æ—¥åšç§¯åˆ†è®¡ç®—çš„æ‰€æœ‰ç©æ³•çš„æ•°æ®æ–‡ä»¶ä¸ªæ•°æ˜¯:$ACTUALLY_ALL_POINT_NUMBER" >> $SCRIPTDIR/logs.txt
+echo "å®é™…ä¸Š, '$YESTERDAY' æ—¥åšç§¯åˆ†è®¡ç®—çš„æ‰€æœ‰ç©æ³•çš„æœ‰æ•ˆæ•°æ®æ–‡ä»¶ä¸ªæ•°æ˜¯:$ACTUALLY_ALL_POINT_EFFECTIVE_NUMBER" >> $SCRIPTDIR/logs.txt
 echo >> $SCRIPTDIR/logs.txt
-echo "ÀíÂÛÉÏ, '$YESTERDAY' ÈÕ×öÈ«¹ú»ı·Ö¼ÆËãµÄ»ı·ÖÊı¾İÎÄ¼ş¸öÊıÊÇ:$THEORETICALLY_NATIONWIDE_NUMBER" >> $SCRIPTDIR/logs.txt
-echo "Êµ¼ÊÉÏ, '$YESTERDAY' ÈÕ×öÈ«¹ú»ı·Ö¼ÆËãµÄÓĞĞ§»ı·ÖÊı¾İÎÄ¼ş¸öÊıÊÇ:$ACTUALLY_NATIONWIDE_ALL_NUMBER" >> $SCRIPTDIR/logs.txt
+echo "ç†è®ºä¸Š, '$YESTERDAY' æ—¥åšå…¨å›½ç§¯åˆ†è®¡ç®—çš„ç§¯åˆ†æ•°æ®æ–‡ä»¶ä¸ªæ•°æ˜¯:$THEORETICALLY_NATIONWIDE_NUMBER" >> $SCRIPTDIR/logs.txt
+echo "å®é™…ä¸Š, '$YESTERDAY' æ—¥åšå…¨å›½ç§¯åˆ†è®¡ç®—çš„æœ‰æ•ˆç§¯åˆ†æ•°æ®æ–‡ä»¶ä¸ªæ•°æ˜¯:$ACTUALLY_NATIONWIDE_ALL_NUMBER" >> $SCRIPTDIR/logs.txt
 echo >> $SCRIPTDIR/logs.txt
-echo "ÀíÂÛÉÏ, '$YESTERDAY' ÈÕ×öÊ¡¼¶»ı·Ö¼ÆËãµÄ»ı·ÖÊı¾İÎÄ¼ş¸öÊıÊÇ:$THEORETICALLY_PROVINCE_ALL_NUMBER" >> $SCRIPTDIR/logs.txt
-echo "Êµ¼ÊÉÏ, '$YESTERDAY' ÈÕ×öÊ¡¼¶»ı·Ö¼ÆËãµÄÓĞĞ§»ı·ÖÊı¾İÎÄ¼ş¸öÊıÊÇ:$ACTUALLY_PROVINCE_ALL_NUMBER" >> $SCRIPTDIR/logs.txt
+echo "ç†è®ºä¸Š, '$YESTERDAY' æ—¥åšçœçº§ç§¯åˆ†è®¡ç®—çš„ç§¯åˆ†æ•°æ®æ–‡ä»¶ä¸ªæ•°æ˜¯:$THEORETICALLY_PROVINCE_ALL_NUMBER" >> $SCRIPTDIR/logs.txt
+echo "å®é™…ä¸Š, '$YESTERDAY' æ—¥åšçœçº§ç§¯åˆ†è®¡ç®—çš„æœ‰æ•ˆç§¯åˆ†æ•°æ®æ–‡ä»¶ä¸ªæ•°æ˜¯:$ACTUALLY_PROVINCE_ALL_NUMBER" >> $SCRIPTDIR/logs.txt
 echo >> $SCRIPTDIR/logs.txt
-########################################·¢ËÍÓÊ¼şº¯Êı#####################################
+########################################å‘é€é‚®ä»¶å‡½æ•°#####################################
 sendmailtouser () {
 for user in `awk -F, '{print $1}' $SCRIPTDIR/receiver.txt`
 do
@@ -90,7 +90,7 @@ do
 done
 }
 
-#####################################################ÅĞ¶Ï#############################
+#####################################################åˆ¤æ–­#############################
 if [ $THEORETICALLY_ALL_POINT_NUMBER -eq $ACTUALLY_ALL_POINT_EFFECTIVE_NUMBER ]
 then
     echo "point calculate OK,`date +"%Y-%m-%d_%H:%M:%S"`" >> $SCRIPTDIR/logs.txt
