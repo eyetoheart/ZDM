@@ -42,6 +42,19 @@ fi
 
 
 
+道明，你好：
+       脚本运行时间和查询参数调整如下：
+	功能描述：监控彩运无限系统受理渠道商投注请求后，超过35分钟未进行投注的订单（只查询24小时以内的订单），监控到订单后进行邮件告警。
+	脚本运行时间：每5分钟运行一次。彩运无限系统每5分钟运行一次关闭订单的任务，关闭超过30分钟仍未进行投注的订单，脚本在系统任务执行1次后进行检查。
+	脚本执行SQL：select count(iwoid) from channel_order_t where accept_time<'TIME1' and accept_time>'TIME2' and status= 0;
+	执行SQL说明：TIME1取值为脚本执行的时间减去35分钟，TIME2取值为TIME1的值减去1天，值的内容格式为yyyy-MM-dd hh:mm:ss。假设脚本在2019年10月18日12:00:00执行，TIME1的值应为’2019-10-18 11:25:00’，TIME2的值应为’2019-10-17 11:25:00’
+	连接数据库：192.168.108.27:5432:lottomagic
+	告警邮件通知人：杨帆（yangf@iwgroup.com.cn、13552961152@139.com）、运维部相关人员。
+
+
+
+
+
 配置文件：receiver.txt
 rmt@iwgroup.com.cn,zhangdaoming
 yangf@iwgroup.com.cn,yangfan
