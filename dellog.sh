@@ -12,7 +12,8 @@ do
     then
         echo "delete directory $delpath  $delNdayago days ago file,`date -d '-0 day' "+%Y-%m-%d_%H:%M:%S"`" >> $SCRIPTDIR/logs.log 
         cd $delpath
-        find ./ -name "*20*.log"  -mtime "+$delNdayago" | xargs rm -rf {} \;
+        #find ./ -name "*20*.log"  -mtime "+$delNdayago" | xargs rm -rf {} \;
+        find ./ -name "*20*.log"  -mtime "+$delNdayago" -exec rm -rf {} \;  # 2021-01-12 修改为使用-exec执行删除操作，而上面一行xargs的用法不正确；
     fi
 done
 
