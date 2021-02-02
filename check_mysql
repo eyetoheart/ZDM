@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# 该脚本是nagios监控mysql主从数据库是否一致的插件，该脚本部署在nagios服务器端或者nrpe客户端。
+# 该脚本是nagios监控mysql主从数据库是否一致的插件，该脚本部署在mysql的slave节点服务器，nagios服务器端或者nrpe客户端，该脚本执行“show slave status\G”命令，根据命令结果判断同步情况。
 # 因为nagios监控软件是以系统用户nagios运行，所以该脚本需要配置/etc/sudoers文件，开放nagios执行权限。
 # nagios配置文件commands.cfg内容如下：
 # define command {
