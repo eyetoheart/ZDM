@@ -1,0 +1,82 @@
+#!/bin/sh
+
+# 该脚本是nagios监控mysql主从数据库是否一致的插件，该脚本部署在nagios服务器端或者nrpe客户端。
+# 因为nagios监控软件是以系统用户nagios运行，所以该脚本需要配置/etc/sudoers文件，开放nagios执行权限。
+# nagios配置文件commands.cfg内容如下：
+# define command {
+
+#     command_name    check_dbsync_xn
+#     command_line    /usr/bin/sudo $USER1$/check_mysql xn_mysql5.7
+# }
+
+
+STATE_OK=0
+STATE_WARNING=1
+STATE_CRITICAL=2
+STATE_UNKNOWN=3
+PROGNAME=$(basename "$0")
+PROGPATH=$(echo "$0" | sed -e 's,[\\/][^\\/][^\\/]*$,,')
+PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
+export PATH
+
+check_dbsync () {
+
+    /usr/bin/docker exec $1 /usr/local/mysql/bin/mysql -uroot -p'1q2w#E$R' -e 'show slave status\G' > $PROGPATH/${1}.txt 2>/dev/null
+    sed -n -i '/Slave_IO_Running:/p;/Slave_SQL_Running:/p;/Read_Master_Log_Pos:/p;/Exec_Master_Log_Pos:/p' $PROGPATH/${1}.txt 2>/dev/null
+    Slave_IO_Running="`cat $PROGPATH/${1}.txt | sed 's/\ //g' | awk -F: '/Slave_IO_Running/{print $2}'`"
+    Slave_SQL_Running="`cat $PROGPATH/${1}.txt | sed 's/\ //g' | awk -F: '/Slave_SQL_Running/{print $2}'`"
+    Read_Master_Log_Pos="`cat $PROGPATH/${1}.txt | sed 's/\ //g' | awk -F: '/Read_Master_Log_Pos/{print $2}'`"
+    Exec_Master_Log_Pos="`cat $PROGPATH/${1}.txt | sed 's/\ //g' | awk -F: '/Exec_Master_Log_Pos/{print $2}'`"
+    #Slave_SQL_Running=NO
+    #Exec_Master_Log_Pos=3455
+    if [ $Slave_IO_Running == $Slave_SQL_Running ] && [ $Read_Master_Log_Pos -eq $Exec_Master_Log_Pos ]
+    then
+        cd $PROGPATH
+        rm -rf ${1}.txt
+        echo "OK - master and slave database Synchronization is normal"
+        exit $STATE_OK
+    elif [ $Slave_IO_Running == $Slave_SQL_Running ] && [ $Read_Master_Log_Pos -ne $Exec_Master_Log_Pos ]
+    then
+        cd $PROGPATH
+        rm -rf ${1}.txt
+        echo "WARNING - master and slave database not synchronized"
+        exit $STATE_WARNING
+    elif [ $Slave_IO_Running != $Slave_SQL_Running ] && [ $Read_Master_Log_Pos -ne $Exec_Master_Log_Pos ]
+    then
+        cd $PROGPATH
+        rm -rf ${1}.txt
+        echo "CRITICAL - The synchronization of master and slave databases is interrupted"
+        exit $STATE_CRITICAL
+    else
+        cd $PROGPATH
+        rm -rf ${1}.txt
+        echo "UNKNOWN - Unknown state"
+        exit $STATE_UNKNOWN
+    fi
+}
+
+print_usage() {
+    echo "Usage: $PROGNAME xn_mysql5.7 || zdb_mysql5.7"
+}
+
+if [ $# -lt 1 ];then
+    print_usage
+    exit 3
+fi
+
+while test -n "$1"
+do
+    case "$1" in
+        xn_mysql5.7)
+            check_dbsync xn_mysql5.7
+            ;;
+        zdb_mysql5.7)
+            check_dbsync zdb_mysql5.7
+            ;;
+        *)
+            print_usage
+            ;;
+        esac
+        shift
+done
+
