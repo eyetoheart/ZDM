@@ -11,12 +11,12 @@ print_usage() {
 如果应用部署在宿主机，则删除第一个冒号前面的部分即可，（冒号不可省略），例如: \n\
 
 # 这是备注或说明行 \n\
-container_name:/app/path:appname \n\
-:/app/path:appname \n\
+container_name:/app/path:appname_one \n\
+:/app/path:appname_two \n\
 
 第一行：可在配置文件开头、结尾、中间中添加以#号开头的备注或说明行，但不可在配置项同一行后面添加#号及说明 \n\
-第二行：容器名为container_name，容器内应用的路径为/app/path，应用的名称为appname(该列可任意命名,但不能有重复的名称) \n\
-第三行：该行表示部署在宿主机/app/path的名为appname的tomcat应用，无容器环境\n"
+第二行：容器名为container_name，容器内应用的路径为/app/path，应用的名称为appname_one(该列可任意命名,但不能有重复的名称) \n\
+第三行：该行表示部署在宿主机/app/path的名为appname_two的tomcat应用，无容器环境\n"
 
 }
 
