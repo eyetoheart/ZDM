@@ -149,7 +149,7 @@ fi
 
 container_taillog () {
 
-docker exec $CONTAINERNAME bash -c "tail -100f $APPPATH/logs/catalina.out"
+docker exec -e LANG=en_US.UTF-8 $CONTAINERNAME bash -c "tail -100f $APPPATH/logs/catalina.out"
 
 }
 
