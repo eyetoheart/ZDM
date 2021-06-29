@@ -24,7 +24,7 @@ export LANG
 #################
 ## 定义函数
 #################
-
+## 登录FTP服务器，下载所有匹配的文件
 ftp_file_down_all () {
 
 cd $PMDOWNDIR/$bxip
@@ -52,6 +52,7 @@ rm $SCRIPTDIR/ftptask.txt
 
 }
 
+#登录FTP服务器，下载某个给定字符串的相关文件
 ftp_file_down_single () {
 
 cd $PMDOWNDIR/$bxip
@@ -72,6 +73,7 @@ rm $SCRIPTDIR/ftptask.txt
 
 }
 
+#登录FTP服务器，列出服务器上指定目录的文件，并保存到本地文件中
 ftp_file_list () {
 
 cd $SCRIPTDIR
@@ -92,6 +94,7 @@ rm $SCRIPTDIR/ftptask.txt
 
 }
 
+#登录SFTP服务器，下载所有匹配的文件
 ssh_file_down_all () {
 
 cd $PMDOWNDIR/$bxip
@@ -106,6 +109,7 @@ $COMMANDPSCP/pscp -P $bxport -l $bxuser -pw $bxpass $bxuser@$bxip:$bxpath/$LASTH
 
 }
 
+#登录SFTP服务器，下载某个匹配的文件
 ssh_file_down_single () {
 
 cd $PMDOWNDIR/$bxip
@@ -113,6 +117,7 @@ $COMMANDPSCP/pscp -P $bxport -l $bxuser -pw $bxpass $bxuser@$bxip:$bxpath/$LASTH
 
 }
 
+#登录SFTP服务器，列出服务器上指定目录下的所有匹配文件列表，并保存到本地文件中
 ssh_file_list () {
 
 $COMMANDPLINK/plink -P $bxport -no-antispoof -l $bxuser -pw $bxpass $bxuser@$bxip ls $bxpath/$LASTHOUR/*EUTRANCELLFDD*${LASTHOUR}*.gz > $SCRIPTDIR/ssh_file_list.txt 2>/dev/null
