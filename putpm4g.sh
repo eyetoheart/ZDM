@@ -1,9 +1,9 @@
 #!/bin/sh
 scriptdir="/tiankui/scripts"
 pmdir="/tiankui/rlyj/csvCollect/csvfile/pm_data"
-pmhost="82.221.6.154"
+pmhost="192.168.10.10"
 pmuser="admin"
-pmpass='disneyCZ!553_154'
+pmpass='password'
 
 lasttime="`date -d '-1 hour' +"%Y%m%d%H"`"
 #echo $lasttime  >> $scriptdir/log.txt
