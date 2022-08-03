@@ -1,16 +1,16 @@
 #!/bin/sh
 
-omcip="10.216.104.221"
+omcip="192.168.10.10"
 omcport="18781"
-omcappid="omc36019c0329594ec197f70e05047ea2bf"
+omcappid="omc36019c0329594ec197f70a2bf"
 omcpath="hb_omc"
 filepath="/opt/zaibo"
 #woid=""
 
-dbhost="10.120.246.10"
+dbhost="192.168.10.10"
 dbuser="root"
-dbpasswd=Hbwy\!QAZ2wsx
-dbname="carrier_is"
+dbpasswd=password
+dbname="carrie"
 
 getomcday=`date -d '-1 day' +"%Y-%m-%d"`
 
